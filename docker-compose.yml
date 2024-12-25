@@ -1,18 +1,55 @@
-version: '3'
+version: "3.8"
 
 services:
-  db:
+  # Servicio MongoDB
+  mongo:
     image: mongo:latest
     container_name: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: mydatabase
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     volumes:
       - mongo_data:/data/db
     ports:
       - "27017:27017"
 
+  # Servicio para User Service (Registro de Usuario)
+  user_service:
+    build: ./user_service
+    container_name: user_service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
+      DATABASE_NAME: ${MONGO_INITDB_DATABASE}
+
+  # Servicio para Auth Service (Inicio de Sesión)
+  auth_service:
+    build: ./auth_service
+    container_name: auth_service
+    ports:
+      - "5002:5002"
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
+      DATABASE_NAME: ${MONGO_INITDB_DATABASE}
+      SECRET_KEY: ${SECRET_KEY}
+
+  # Servicio para API Gateway
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - user_service
+      - auth_service
+
+  # Servicio para la Aplicación Django
   web:
     build: .
     container_name: django-app
@@ -22,9 +59,9 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - mongo
     environment:
-      - MONGODB_URI=mongodb://root:example@db:27017/mydatabase
+      MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
 
 volumes:
   mongo_data:

@@ -1,34 +1,40 @@
-from django.conf import settings
-from pymongo import MongoClient
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import models
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 
-# Acceder a la base de datos MongoDB a través de pymongo
-client = MongoClient(settings.MONGODB_URI)
-db = client[settings.DATABASE_NAME]
+ph = PasswordHasher()
 
-class User:
-    @staticmethod
-    def get_collection():
-        return db["users"]
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None):
+        if not email:
+            raise ValueError("Users must have an email address")
+        user = self.model(email=self.normalize_email(email))
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-    @staticmethod
-    def create(data):
-        return User.get_collection().insert_one(data).inserted_id
+    def create_superuser(self, email, password=None):
+        user = self.create_user(email, password)
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
-    @staticmethod
-    def get_all():
-        return list(User.get_collection().find({}, {"_id": 0}))
+class User(AbstractBaseUser):
+    email = models.EmailField(unique=True, max_length=255)
+    password = models.CharField(max_length=128)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
 
-    @staticmethod
-    def get_by_id(user_id):
-        from bson import ObjectId
-        return User.get_collection().find_one({"_id": ObjectId(user_id)})
+    objects = UserManager()
 
-    @staticmethod
-    def update(user_id, data):
-        from bson import ObjectId
-        return User.get_collection().update_one({"_id": ObjectId(user_id)}, {"$set": data})
+    USERNAME_FIELD = 'email'
 
-    @staticmethod
-    def delete(user_id):
-        from bson import ObjectId
-        return User.get_collection().delete_one({"_id": ObjectId(user_id)})
+    def set_password(self, raw_password):
+        self.password = ph.hash(raw_password)
+
+    def check_password(self, raw_password):
+        try:
+            return ph.verify(self.password, raw_password)
+        except VerifyMismatchError:
+            return False
