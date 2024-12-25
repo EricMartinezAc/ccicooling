@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: mydatabase
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  web:
+    build: .
+    container_name: django-app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - MONGODB_URI=mongodb://root:example@db:27017/mydatabase
+
+volumes:
+  mongo_data:
