@@ -1,67 +1,46 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  # Servicio MongoDB
+  gateway:
+    build:
+      context: ./gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=gateway.settings
+    depends_on:
+      - auth_service
+      - crud_service
+
+  auth_service:
+    build:
+      context: ./auth_service
+    ports:
+      - "8001:8001"
+    environment:
+      - DJANGO_SETTINGS_MODULE=auth_service.settings
+    depends_on:
+      - mongo
+
+  crud_service:
+    build:
+      context: ./crud_service
+    ports:
+      - "8002:8002"
+    environment:
+      - DJANGO_SETTINGS_MODULE=crud_service.settings
+    depends_on:
+      - mongo
+
   mongo:
     image: mongo:latest
-    container_name: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-    volumes:
-      - mongo_data:/data/db
     ports:
       - "27017:27017"
-
-  # Servicio para User Service (Registro de Usuario)
-  user_service:
-    build: ./user_service
-    container_name: user_service
-    ports:
-      - "5001:5001"
-    depends_on:
-      - mongo
     environment:
-      MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
-      DATABASE_NAME: ${MONGO_INITDB_DATABASE}
-
-  # Servicio para Auth Service (Inicio de Sesión)
-  auth_service:
-    build: ./auth_service
-    container_name: auth_service
-    ports:
-      - "5002:5002"
-    depends_on:
-      - mongo
-    environment:
-      MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
-      DATABASE_NAME: ${MONGO_INITDB_DATABASE}
-      SECRET_KEY: ${SECRET_KEY}
-
-  # Servicio para API Gateway
-  gateway:
-    build: ./gateway
-    container_name: gateway
-    ports:
-      - "8000:8000"
-    depends_on:
-      - user_service
-      - auth_service
-
-  # Servicio para la Aplicación Django
-  web:
-    build: .
-    container_name: django-app
-    command: python manage.py runserver 0.0.0.0:8000
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    depends_on:
-      - mongo
-    environment:
-      MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
+      - mongo-data:/data/db
 
 volumes:
-  mongo_data:
+  mongo-data:

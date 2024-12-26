@@ -1,10 +1,23 @@
-FROM python:3.10
+# Dockerfile for Gateway Service
+FROM python:3.11-slim
 
+# Set environment variables
+ENV PYTHONUNBUFFERED 1
+ENV PIP_NO_CACHE_DIR=yes
+
+# Set work directory
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+COPY requirements.txt /app/
+RUN pip install --upgrade pip 
+RUN pip install -r requirements.txt
 
-COPY . .
+# Copy the application code
+COPY . /app/
 
-CMD ["uvicorn", "gateway.gateway:app", "--host", "0.0.0.0", "--port", "8000"]
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Command to run the application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

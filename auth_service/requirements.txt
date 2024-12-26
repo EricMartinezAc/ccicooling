@@ -1,6 +1,7 @@
-fastapi
-uvicorn
+Django
+djangorestframework
 pymongo
-argon2-cffi
-python-dotenv
+dnspython
+bcrypt
+python-decouple
 pyjwt
