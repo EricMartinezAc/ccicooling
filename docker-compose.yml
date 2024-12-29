@@ -43,4 +43,4 @@ services:
 
 volumes:
   oracle-data:
-    driver: ${ORACLE_DATA_DRIVER}
+    driver: local
