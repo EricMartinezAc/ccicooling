@@ -1,0 +1,46 @@
+
+services:
+
+  oracle-db:
+    image: ${DB_IMAGE}
+    environment:
+      - ORACLE_PASSWORD=${ORACLE_PASSWORD}
+      - ORACLE_PDB=${ORACLE_PDB}
+    ports:
+      - "${ORACLE_PORT}:${ORACLE_PORT}"
+      - "${ORACLE_PORT_EMEXRESS}:${ORACLE_PORT_EMEXRESS}"
+    volumes:
+      - oracle-data:${ORACLE_VOL_DATA}
+
+  gateway:
+    build:
+      context: ${ROUTE_GATEWAY}
+    ports:
+      - "${GATEWAY_PORT}:${GATEWAY_PORT}"
+    depends_on:
+      - ${MSSESSIONS_HOST}
+      - ${ORACLE_HOST}
+
+    environment:
+      - ORACLE_HOST=${ORACLE_HOST}
+      - ORACLE_PORT=${ORACLE_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SID=${DB_SID}
+      - DB_SERVICE=${DB_SERVICE}
+
+  ms-sessions:
+    build:
+      context: ./${MSSESSIONS_HOST}
+    ports:
+      - "${MSSESSIONS_PORT}:${MSSESSIONS_PORT}"
+
+  ms-products:
+    build:
+      context: ./${MSPRODUCTS_HOST}
+    ports:
+      - "${MSPRODUCTS_PORT}:${MSPRODUCTS_PORT}"
+ayuda
+volumes:
+  oracle-data:
+    driver: ${ORACLE_DATA_DRIVER}
