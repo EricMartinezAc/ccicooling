@@ -40,7 +40,7 @@ services:
       context: ./${MSPRODUCTS_HOST}
     ports:
       - "${MSPRODUCTS_PORT}:${MSPRODUCTS_PORT}"
-ayuda
+
 volumes:
   oracle-data:
     driver: ${ORACLE_DATA_DRIVER}
