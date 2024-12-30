@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-const API_KEY = '35a57fc8bd25defa7d15fa6035f20b22'; 
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const BASE_URL = 'http://localhost:1992/';
 
-
-export const fetchClimateData = async (latitude: number, longitude: number) => {
+export const userAuth = async (user: string, psw: string) => {
   try {
     const response = await axios.get(BASE_URL, {
       params: {
@@ -27,8 +25,33 @@ export const fetchClimateData = async (latitude: number, longitude: number) => {
     };
 
     return climateData;
-  } catch (error:any) {
+  } catch (error: any) {
     throw new Error(`Error consultando API de clima: ${error.message}`);
   }
 };
+export const userRegister = async (email: string, user: string, psw: string) => {
+  try {
+    const response = await axios.get(`${BASE_URL}`, {
+      params: {
+        email,
+        user,
+        psw
+      },
+    });
+
+    const { emailResponse, userResponse } = response.data;
+
+    // Extraccion de datos relevantes
+    const resolve = {
+      code: 200, // http
+      email: emailResponse,
+      user: userResponse
+    };
+
+    return resolve;
+  } catch (error: any) {
+    throw new Error(`Error consultando API de clima: ${error.message}`);
+  }
+};
+
 

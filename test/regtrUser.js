@@ -1,14 +1,15 @@
-const http = require('http'); // Usar http en lugar de https
+const http = require('http'); 
 
-const sendLocationData = async () => {
-  const latitude = 4.6097; // Ejemplo: Bogotá
-  const longitude = -74.0817;
-  const data = JSON.stringify({ latitude, longitude });
+const authUser = async () => {
+  email = 'erdh@ckckd.com'
+  const user = 'user1';
+  const psw = '-Rsff7417';
+  const data = JSON.stringify({ email, user, psw });
 
   const options = {
     hostname: 'localhost',
-    port: 2026, 
-    path: '/api/cpannel',
+    port: 1992, 
+    path: '/api/ms-session/regtrSession',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ const sendLocationData = async () => {
     res.on('end', () => {
       try {
         const result = JSON.parse(responseData);
-        console.log('Datos climáticos:', result);
+        console.log('respuesta del servidor:', result);
       } catch (error) {
         console.error('Error al analizar la respuesta:', error.message);
       }
@@ -42,4 +43,4 @@ const sendLocationData = async () => {
   request.end();
 };
 
-sendLocationData();
+authUser();

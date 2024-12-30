@@ -4,7 +4,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 import { gatewayCpannel } from './router/routeCpannel';
-// import { gatewayMS250 } from './router/routeMS250';
+import { gatewaySessions } from './router/routeMSSessions';
 // import { gatewayMSproducts } from './router/routeMSproducts';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', gatewayCpannel)
-// app.use('/api', gatewayMS250);
+app.use('/api', gatewaySessions);
 // app.use('/api', gatewayMSproducts);
 
 app.listen(port, () => {
