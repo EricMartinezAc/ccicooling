@@ -1,16 +1,4 @@
-
 services:
-
-  oracle-db:
-    image: ${DB_IMAGE}
-    environment:
-      - ORACLE_PASSWORD=${ORACLE_PASSWORD}
-      - ORACLE_PDB=${ORACLE_PDB}
-    ports:
-      - "${ORACLE_PORT}:${ORACLE_PORT}"
-      - "${ORACLE_PORT_EMEXRESS}:${ORACLE_PORT_EMEXRESS}"
-    volumes:
-      - oracle-data:${ORACLE_VOL_DATA}
 
   gateway:
     build:
@@ -19,28 +7,26 @@ services:
       - "${GATEWAY_PORT}:${GATEWAY_PORT}"
     depends_on:
       - ${MSSESSIONS_HOST}
-      - ${ORACLE_HOST}
 
     environment:
-      - ORACLE_HOST=${ORACLE_HOST}
-      - ORACLE_PORT=${ORACLE_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_SID=${DB_SID}
-      - DB_SERVICE=${DB_SERVICE}
+      - MONGO_URI=${MONGO_URI}
 
   ms-sessions:
     build:
       context: ./${MSSESSIONS_HOST}
     ports:
       - "${MSSESSIONS_PORT}:${MSSESSIONS_PORT}"
+    environment:
+      - MONGO_URI=${MONGO_URI}
 
   ms-products:
     build:
       context: ./${MSPRODUCTS_HOST}
     ports:
       - "${MSPRODUCTS_PORT}:${MSPRODUCTS_PORT}"
+    environment:
+      - MONGO_URI=${MONGO_URI}
 
 volumes:
-  oracle-data:
+  mongo-data:
     driver: local
