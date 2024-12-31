@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { loginProductInDb, getProductById } from './product.service';
+import { loginProductInDb, findProductInDb } from './product.service';
 
 
 export const loginProduct = async (req: Request, res: Response) => {
@@ -10,16 +10,18 @@ export const loginProduct = async (req: Request, res: Response) => {
     console.log(`output loginProduct ${loginProduct}`)
     res.status(201).json(loginProduct);
   } catch (error) {
-    res.status(500).send('Error creating product');
+    res.status(500).send('Error find product');
   }
 };
 
-export const getProduct = async (req: Request, res: Response) => {
+export const findProduct = async (req: Request, res: Response) => {
   try {
-    const product = await getProductById(req.params.id);
-    console.log(`out getProducts ${product}`)
-    res.json(product);
+    const {_id} = req.body
+    console.log(`into findProduct ${_id}`)
+    const findProduct = await findProductInDb(_id);
+    console.log(`output findProduct ${findProduct}`)
+    res.status(201).json(findProduct);
   } catch (error) {
-    res.status(500).send('Error fetching product');
+    res.status(404).send('Error find product');
   }
 };
