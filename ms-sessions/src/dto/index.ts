@@ -1,3 +1,3 @@
-export {RegisterUserOutBinds, AuthUserOutBinds } from './userOutBinds.dto'
+export { RegisterUserOutputDTO } from './user.output.authregtr.dto'
 
 

@@ -1,15 +1,14 @@
 const http = require('http'); 
 
-const authUser = async () => {
-  email = 'erdh@ckckd.com'
-  const user = 'user1';
-  const psw = '-Rsff7417';
-  const data = JSON.stringify({ email, user, psw });
+const loginProduct = async () => {
+  const owner = 'arcontroller@climatecontrolsing.com';
+  const clav_prodct = 'Arc2025*';
+  const data = JSON.stringify({ owner, clav_prodct });
 
   const options = {
     hostname: 'localhost',
     port: 1992, 
-    path: '/api/ms-session/regtrSession',
+    path: '/api/ms/products/loginProduct',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,4 +42,4 @@ const authUser = async () => {
   request.end();
 };
 
-authUser();
+loginProduct();

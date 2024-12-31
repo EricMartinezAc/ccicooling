@@ -1,13 +1,14 @@
 const http = require('http'); 
 
-const findProduct = async () => {
-  const _id = '67736fb6a5da74e14a20da91';
-  const data = JSON.stringify({ _id });
+const authUser = async () => {
+  const user = 'user1';
+  const psw = '-Rsff7417';
+  const data = JSON.stringify({ user, psw });
 
   const options = {
     hostname: 'localhost',
     port: 1991, 
-    path: '/api/ms/products/findProduct',
+    path: '/api/ms-session/authSession',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -41,4 +42,4 @@ const findProduct = async () => {
   request.end();
 };
 
-findProduct();
+authUser();

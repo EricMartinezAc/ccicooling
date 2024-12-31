@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
-import Conexiondb from "./utils/producs.connection";
+import Conexiondb from "./utils/mongodb.connection";
 
 
 import { productRoutes } from './products.router';
@@ -12,7 +12,7 @@ Conexiondb()
 
 
 const app = express();
-const port = process.env.PORT || 1991;
+const port = process.env.PORT || 1992;
 
 app.use(
   cors({

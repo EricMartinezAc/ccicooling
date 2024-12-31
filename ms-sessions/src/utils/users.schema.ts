@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose  from "mongoose";
 
 const users_schema = new mongoose.Schema({
   user: {
@@ -15,13 +15,14 @@ const users_schema = new mongoose.Schema({
   },
   rol: {
     type: String,
-    required: true,
+    required: false,
   },
   id_prodct: {
     type: String,
+    required: true
     // mongoose.Schema.Types.ObjectId,
     // ref: "prodct",
   },
 });
 
-module.exports = mongoose.model("user", users_schema);
+export default mongoose.model("user", users_schema);

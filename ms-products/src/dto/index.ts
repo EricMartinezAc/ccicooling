@@ -1,2 +1,2 @@
-export { outputLoginProductDTO } from './product.login.dto'
-export { outputByIdProductDTO } from './product.byId.dto'
+export { outputLoginProductDTO } from './product.output.login.dto'
+export { outputByIdProductDTO } from './product.output.byId.dto'

@@ -2,19 +2,29 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
+import Conexiondb from "./utils/mongodb.connection";
 
-import { msSessions } from './routeMSSessions';
+import { sessionRoutes } from './sessions.router';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
+Conexiondb()
 
 const app = express();
-const port = process.env.GATEWAY_PORT || 1992;
+const port = process.env.MSSESSIONS_PORT || 1991;
 
-app.use(cors());
-app.use(express.json());
+app.use(
+  cors({
+    origin: "*"
+  })
+);
+app.use(
+  express.json({
+    limit: "35mb"
+  })
+);
 
-app.use('/api/ms-session', msSessions);
+app.use('/api/ms-session', sessionRoutes);
 
 app.listen(port, () => {
-  console.log(`Gateway running on http://localhost:${port}`);
+  console.log(`Session CRUD service running on http://localhost:${port}`);
 });

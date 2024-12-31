@@ -1,14 +1,13 @@
 const http = require('http'); 
 
-const loginProduct = async () => {
-  const owner = 'arcontroller@climatecontrolsing.com';
-  const clav_prodct = 'Arc2025*';
-  const data = JSON.stringify({ owner, clav_prodct });
+const findProduct = async () => {
+  const _id = '67736fb6a5da74e14a20da91';
+  const data = JSON.stringify({ _id });
 
   const options = {
     hostname: 'localhost',
-    port: 1991, 
-    path: '/api/ms/products/loginProduct',
+    port: 1992, 
+    path: '/api/ms/products/findProduct',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -42,4 +41,4 @@ const loginProduct = async () => {
   request.end();
 };
 
-loginProduct();
+findProduct();
