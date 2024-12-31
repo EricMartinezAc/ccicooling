@@ -1,11 +1,11 @@
-# gateway/node_modules
-# gateway/.env
+gateway/node_modules
+gateway/.env
 
-# ms-products/node_modules
-# ms-products/.env
+ms-products/node_modules
+ms-products/.env
 
-# ms-sessions/node_modules
-# ms-sessions/.env
+ms-sessions/node_modules
+ms-sessions/.env
 
 .env
 

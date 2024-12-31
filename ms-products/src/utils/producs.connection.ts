@@ -7,7 +7,6 @@ const Conexiondb = async () => {
       .connect(
         `${process.env.MONGODB_URI}${process.env.MONGODB_URI_config}`
       )
-    console.log(`${process.env.MONGODB_URI}${process.env.MONGODB_URI_config}`)
     console.log("Database is connected");
   } catch (error: any) { console.error("Connection error:", error) }
 
