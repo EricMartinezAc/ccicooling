@@ -2,10 +2,11 @@ const http = require('http');
 
 const authUser = async () => {
 
- _id = '67736988a5da74e14a20da90'
+  const owner='arcontroller@climatecontrolsing.com'
+  const clav_prodct = 'Arc2025*'
   const user = 'user1';
   const psw = '-Rsff7417';
-  const data = JSON.stringify({ _id, user, psw });
+  const data = JSON.stringify({ owner, clav_prodct, user, psw });
 
   const options = {
     hostname: 'localhost',

@@ -18,9 +18,9 @@ export const AuthSession = async (req: Request, res: Response) => {
   try {
     const { _id, user, psw } = req.body
 
-    console.log(`into RegtrSession ${user}, ${psw}`)
+    console.log(`into AuthSession ${user}, ${psw}`)
     const message = await AuthSessionService(_id, user, psw);
-    console.log(`output RegtrSession ${message}`)
+    console.log(`output AuthSession ${message}`)
     res.json({ message });
   } catch (error) {
     res.status(500).send(`error: ${error}`);

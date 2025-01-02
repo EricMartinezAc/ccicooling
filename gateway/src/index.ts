@@ -3,9 +3,8 @@ import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 
-import { gatewayCpannel } from './router/routeCpannel';
-import { gatewaySessions } from './router/routeMSSessions';
-// import { gatewayMSproducts } from './router/routeMSproducts';
+import { gatewayCpannel } from './router/cpannel.route';
+import { gatewaySessions } from './router/ms.session.router';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
@@ -17,7 +16,6 @@ app.use(express.json());
 
 app.use('/api', gatewayCpannel)
 app.use('/api', gatewaySessions);
-// app.use('/api', gatewayMSproducts);
 
 app.listen(port, () => {
   console.log(`Gateway running on http://localhost:${port}`);

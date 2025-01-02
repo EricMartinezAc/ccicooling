@@ -1,9 +1,11 @@
 const http = require('http'); 
 
 const authUser = async () => {
+
+ _id = '67736988a5da74e14a20da90'
   const user = 'user1';
   const psw = '-Rsff7417';
-  const data = JSON.stringify({ user, psw });
+  const data = JSON.stringify({ _id, user, psw });
 
   const options = {
     hostname: 'localhost',

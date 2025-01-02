@@ -2,50 +2,58 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:1992/';
 
-export const userAuth = async (user: string, psw: string) => {
+export interface DataUserOutputDTO {
+  data: Data
+}
+export interface Data {
+  email: string;
+  user: string
+  token: string | boolean
+}
+
+
+export const userAuth = async (id: string, user: string, pswLogin: string) => {
   try {
-    const response = await axios.get(BASE_URL, {
-      params: {
-        lat: latitude,
-        lon: longitude,
-        appid: API_KEY,
-        units: 'metric',
-      },
+    const response: DataUserOutputDTO = await axios.post(`${BASE_URL}`, {
+      
+        id,
+        user,
+        pswLogin
+      ,
     });
 
-    const { main, wind, weather } = response.data;
+    const { email, user, token } = response.data;
 
     // Extraccion de datos relevantes
-    const climateData = {
-      temperature: main.temp, // Temperatura en Celsius
-      humidity: main.humidity, // Humedad relativa (%)
-      pressure: main.pressure, // Presión atmosférica (hPa)
-      windSpeed: wind.speed, // Velocidad del viento (m/s)
-      description: weather[0]?.description, // Descripción del clima
+    const resolve = {
+      email,
+      user,
+      token
     };
 
-    return climateData;
+    return resolve;
   } catch (error: any) {
     throw new Error(`Error consultando API de clima: ${error.message}`);
   }
 };
-export const userRegister = async (email: string, user: string, psw: string) => {
+export const userRegister = async (owner: string, clav_prodct: string, user: string, psw: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}`, {
+    const response: DataUserOutputDTO = await axios.get(`${BASE_URL}`, {
       params: {
-        email,
+        owner,
+        clav_prodct,
         user,
         psw
       },
     });
 
-    const { emailResponse, userResponse } = response.data;
+    const { email, user, token } = response.data;
 
     // Extraccion de datos relevantes
     const resolve = {
-      code: 200, // http
-      email: emailResponse,
-      user: userResponse
+      email,
+      user,
+      token
     };
 
     return resolve;
