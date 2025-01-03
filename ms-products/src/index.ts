@@ -12,7 +12,7 @@ Conexiondb()
 
 
 const app = express();
-const port = process.env.PORT || 1992;
+const port = 1992;
 
 app.use(
   cors({
@@ -27,7 +27,7 @@ app.use(
 app.use('/api/ms/products', productRoutes);
 
 app.listen(port, () => {
-  console.log(`Product CRUD Service running on http://localhost:${port}`);
+  console.log(`Product CRUD Service running on ${port}`);
 });
 
 
