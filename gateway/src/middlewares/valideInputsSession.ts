@@ -1,11 +1,9 @@
-interface User {
-  user: string;
-  pswLogin: string;
-}
+import { IntoUserAuthDTO } from "../dto/into.user.auth.dto";
+import { IntoUserRegtrDTO } from "../dto/into.user.regtr.dto";
 
 
 const validateUser = (user: string): boolean => {
-  const alphanumericRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,8}$/;
+  const alphanumericRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,11}$/;
   if (!alphanumericRegex.test(user)) {
     return false;
   }
@@ -13,15 +11,21 @@ const validateUser = (user: string): boolean => {
 };
 
 const validatePassword = (psw: string): boolean => {
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,8}$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,10}$/;
   if (!passwordRegex.test(psw)) {
     return false;
   }
   return true;
 };
 
-const ValideInputSession = async (user: User) => {
-  return validateUser(user.user) && validatePassword(user.pswLogin) ? true : false
+const ValideInputSession = async (body: any): Promise<boolean> => {
+  if (body.owner || body.clav_prodct) {
+    const { owner, clav_prodct }: IntoUserRegtrDTO = body
+  }
+  const { user, pswLogin }: IntoUserAuthDTO = body
+
+  return await validateUser(user) && await validatePassword(pswLogin) ? true : false
+
 }
 
 export default ValideInputSession

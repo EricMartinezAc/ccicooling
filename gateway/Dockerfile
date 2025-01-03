@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 2026
+EXPOSE 2025
 
 CMD ["npm", "run", "start"]

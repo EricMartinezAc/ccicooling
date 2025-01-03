@@ -1,51 +1,43 @@
 import { Request, Response } from 'express';
+import { IntoUserAuthDTO } from '../dto/into.user.auth.dto';
+import { IntoUserRegtrDTO } from '../dto/into.user.regtr.dto';
+import { OutPutUserSessionDTO } from '../dto/output.user.session.dto';
 import { userAuth, userRegister } from '../services/sessions.service';
 
-export interface RegisterUserOutputDTO{
-  email: string;
-  user: string
-  token: string | boolean
+export interface DataUserOutputDTO {
+  data: OutPutUserSessionDTO;
 }
-
-
 
 export const getUserAuth = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id, user, psw } = req.body;
+    const { id, user, pswLogin }:IntoUserAuthDTO = req.body;
+    let userAuthSuccess: OutPutUserSessionDTO = { statusCode: 404, email: 'unknow 1.5', user: `unknow 1.5`, token: false }
 
-    if (!user || !psw) {
-      res.status(400).json({ error: 'datos insuficientes.' });
-      return;
+    if (!user || !pswLogin) {
+      res.json(userAuthSuccess)
     }
 
-    const userAuthSuccess:RegisterUserOutputDTO = await userAuth(id, user, psw);
-    res.json({
-      data: userAuthSuccess,
-    });
-
-
+    userAuthSuccess = await userAuth(id, user, pswLogin);
+    res.json(userAuthSuccess)
   } catch (error: any) {
-    res.status(500).json({ error: `Error en operacion: ${error.message}` });
+    res.json({ email: '500', user: `unknow 1.2`, token: `${error}` })
   }
 };
 
 export const getUserRegister = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { owner, clav_prodct, user, psw } = req.body;
-
-    if (!owner || !clav_prodct || !user || !psw) {
-      res.status(400).json({ error: 'datos insuficientes.' });
-      return;
+  try {   
+    const { owner, clav_prodct, user, pswLogin }: IntoUserRegtrDTO = req.body;
+    let userRegisterSuccess: OutPutUserSessionDTO = { statusCode: 404, email: 'unknow 2.1', user: `unknow 2.1`, token: false }
+    if (!owner || !clav_prodct || !user || !pswLogin) {
+      res.json(userRegisterSuccess)
     }
 
-    const userRegisterSuccess: RegisterUserOutputDTO = await userRegister(owner, clav_prodct, user, psw);
-    res.json({
-      data: userRegisterSuccess,
-    });
+    userRegisterSuccess = await userRegister(owner, clav_prodct, user, pswLogin);
+    res.json(userRegisterSuccess);
 
 
   } catch (error: any) {
-    res.status(500).json({ error: `Error en operacion: ${error.message}` });
+    res.json({ statusCode: 500, email: 'unknow 2.2', user: `unknow 2.2`, token: `${error}` })
   }
 };
 

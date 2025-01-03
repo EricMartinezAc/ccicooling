@@ -4,14 +4,19 @@ this app is a microservices backend for ml
 create a main app js for test
 
 
-# endpoints
+# documents
 
-- PRODUCTS
+- AUTH
 
-* /api/ms/products/loginProduct
-body {owner: string, clav_prodct: string}
-return {id:string, stat:boolean}
+    1. Methop POST
+    2. URL: /api/sessions/login
+    3. Body: {owner: string, clav_prodct: string}
+    4. return: {id:string, stat:boolean, token: string}
 
-* /api/ms/products/findProduct
-body {_id: string}
-return {owner:string, stat:boolean}
+
+- REGTR
+
+    1. Method POST
+    2. URL: /api/sessions/regtr
+    3. Body: {_id: string}
+    4. return: {owner:string, stat:boolean, token: string}

@@ -8,6 +8,7 @@ dotenv.config();
 interface LoginProductResponse {
   id: string;
   stat: boolean;
+  token: string;
 }
 interface FindProductResponse {
   email: string;
@@ -24,6 +25,8 @@ export const RegtrSessionService = async (
   pswLogin: string
 ): Promise<RegisterUserOutputDTO> => {
   try {
+    console.log(1, { owner, clav_prodct, user, pswLogin });
+
 
     const loginResponse = await axios.post<LoginProductResponse>(
       `${process.env.MSPRODUCTS_URI}loginProduct`,
@@ -34,12 +37,15 @@ export const RegtrSessionService = async (
     );
 
     const objectOwner = loginResponse.data;
-    console.log('objectOwner', objectOwner)
+    console.log(2, objectOwner)
 
     if (!objectOwner || !objectOwner.stat) {
       console.log(objectOwner);
       return { email: 'error, owner no found or unable', user: 'unknown', token: false };
     }
+
+    const token = await genereToken(user, pswLogin)
+    console.log(3, token)
 
     const objectUser = await users_schema
       .findOne({
@@ -48,10 +54,9 @@ export const RegtrSessionService = async (
         id_prodct: objectOwner.id
       })
       .exec();
-    console.log('objectUser', objectUser)
+    console.log(4, objectUser)
 
     if (objectUser) {
-      const token = await genereToken(user, pswLogin)
       await users_schema.findOneAndUpdate(
         {
           user,
@@ -61,9 +66,6 @@ export const RegtrSessionService = async (
       console.error("Object user has been stored before");
       return { email: owner, user: objectUser.user, token };
     }
-
-
-    const token = await genereToken(user, pswLogin)
 
     if (!token) {
       console.error("Object user was'nt stored");
@@ -100,10 +102,7 @@ export const AuthSessionService = async (
   try {
 
     const loginResponse = await axios.post<FindProductResponse>(
-      `${process.env.MSPRODUCTS_URI}findProduct`,
-      {
-        _id
-      }
+      `${process.env.MSPRODUCTS_URI}findProduct`, { _id }
     );
 
     const objectOwner = loginResponse.data;

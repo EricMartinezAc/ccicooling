@@ -5,21 +5,19 @@ import ValideInputSession from '../middlewares/valideInputsSession';
 const router = express.Router();
 
 router.post('/sessions/login',
-    async (req: Request, res: Response, next: NextFunction) => {
-        const { user, pswLogin }: any | undefined = req.body
-        if (!pswLogin) { throw new Error("unknow"); }
-        await ValideInputSession({ user, pswLogin }) ?
+    async (req: Request, res: Response, next: NextFunction):Promise<void> => {
+        await ValideInputSession(req.body) ?
             next() :
-            res.json({ email: 'unknow', user: `unknow`, token: 'false' })
+            res.json({ statusCode: 500 ,email: 'unknow email 1', user: `unknow user 1`, token: false })
     }, getUserAuth);
 
+
+    
 router.post('/sessions/regtr',
-    async (req: Request, res: Response, next: NextFunction) => {
-        const { user, pswLogin }: any | undefined = req.body
-        if (!pswLogin) { throw new Error("unknow"); }
-        await ValideInputSession({ user, pswLogin }) ?
+    async (req: Request, res: Response, next: NextFunction):Promise<void> => {
+        await ValideInputSession(req.body) ?
             next() :
-            res.json({ email: 'unknow', user: `unknow`, token: 'false' })
-    }, getUserRegister);
+            res.json({ statusCode: 500 ,email: 'unknow email 2', user: `unknow user 2`, token: false })
+        }, getUserRegister);
 
 export { router as gatewaySessions };

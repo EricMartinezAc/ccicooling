@@ -1,65 +1,62 @@
 import axios from 'axios';
+import { OutPutUserSessionDTO } from '../dto/output.user.session.dto';
 
-const BASE_URL = 'http://localhost:1992/';
+const BASE_URL = 'http://localhost:1991';
 
-export interface DataUserOutputDTO {
-  data: Data
-}
-export interface Data {
-  email: string;
-  user: string
-  token: string | boolean
-}
-
-
-export const userAuth = async (id: string, user: string, pswLogin: string) => {
+export const userAuth = async (id: string, userIn: string, pswLogin: string): Promise<OutPutUserSessionDTO> => {
   try {
-    const response: DataUserOutputDTO = await axios.post(`${BASE_URL}`, {
-      
-        id,
-        user,
-        pswLogin
-      ,
+    console.log('in auth 2', { id, userIn, pswLogin })
+    const response = await axios.post(`${BASE_URL}/api/ms-session/authSession`, {
+      id,
+      user: userIn,
+      pswLogin,
     });
 
     const { email, user, token } = response.data;
 
-    // Extraccion de datos relevantes
-    const resolve = {
+    const resolve: OutPutUserSessionDTO = {
+      statusCode: token ? 200 : 503,
       email,
       user,
-      token
+      token,
     };
+    console.log(resolve);
 
     return resolve;
   } catch (error: any) {
-    throw new Error(`Error consultando API de clima: ${error.message}`);
+    throw new Error(`Error consultando API : ${error.message}`);
   }
 };
-export const userRegister = async (owner: string, clav_prodct: string, user: string, psw: string) => {
+
+export const userRegister = async (
+  owner: string,
+  clav_prodct: string,
+  userIn: string,
+  pswLogin: string
+): Promise<OutPutUserSessionDTO> => {
   try {
-    const response: DataUserOutputDTO = await axios.get(`${BASE_URL}`, {
-      params: {
+    console.log('in regtr 2', { owner, clav_prodct, userIn, pswLogin })
+    const response = await axios.post(`${BASE_URL}/api/ms-session/regtrSession`,
+      {
         owner,
         clav_prodct,
-        user,
-        psw
+        user: userIn,
+        pswLogin,
       },
-    });
+    );
 
-    const { email, user, token } = response.data;
+    const { user, token } = response.data;
 
-    // Extraccion de datos relevantes
+
     const resolve = {
-      email,
+      statusCode: token ? 200 : 503,
+      email: owner,
       user,
-      token
+      token,
     };
 
     return resolve;
   } catch (error: any) {
-    throw new Error(`Error consultando API de clima: ${error.message}`);
+    throw new Error(`Error consultando API : ${error.message}`);
   }
 };
-
-
