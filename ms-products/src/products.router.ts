@@ -9,4 +9,13 @@ router.post('/findProduct', findProduct);
 // router.put('/:id', updateProduct);
 // router.delete('/:id', deleteProduct);
 
+router.get('/getProductInfo', (req, res) => {
+    const productInfo = {
+        owner: 'arcontroller@climatecontrolsing.com',
+        clav_prodct: 'Arc2025*'
+    };
+
+    res.json(productInfo);
+});
+
 export { router as productRoutes };

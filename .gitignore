@@ -8,7 +8,7 @@ ms-sessions/node_modules
 ms-sessions/.env
 
 .env
-
+.env.sample
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
