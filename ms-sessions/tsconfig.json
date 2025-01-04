@@ -9,11 +9,17 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-
-    "typeRoots": ["./node_modules/@types","./node_modules/@typescript"],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@typescript"
+    ],
   },
   "include": [
-    "src/**/*.ts" ],
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
