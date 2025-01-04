@@ -1,45 +1,41 @@
-const http = require('http'); 
 
-const loginProduct = async () => {
-  const owner = 'arcontroller@climatecontrolsing.com';
-  const clav_prodct = 'Arc2025*';
-  const data = JSON.stringify({ owner, clav_prodct });
+// Archivo: postapi.js
 
-  const options = {
-    hostname: 'https://ccicooling.vercel.app',
-    port: 1992, 
-    path: '/api/ms/products/loginProduct',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': data.length,
-    },
+(async () => {
+  const fetch = (await import('node-fetch')).default;
+
+  const url = "https://ccicooling.onrender.com/api/ms/products/loginProduct";
+
+  const loginProduct = async () => {
+
+    const owner = 'arcontroller@climatecontrolsing.com';
+    const clav_prodct = 'Arc2025*';
+    const data = JSON.stringify({ owner, clav_prodct });
+  
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+      },
+      body: data
+    };
+
+    try {
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('respuesta del servidor:', result);
+    } catch (error) {
+      console.error('Error al enviar los datos:', error.message);
+    }
   };
 
-  const request = http.request(options, (res) => { 
-    let responseData = '';
-
-    res.on('data', (chunk) => {
-      responseData += chunk;
-    });
-
-    res.on('end', () => {
-      try {
-        const result = JSON.parse(responseData);
-        console.log('respuesta del servidor:', result);
-      } catch (error) {
-        console.error('Error al analizar la respuesta:', error.message);
-      }
-    });
-  });
-
-  request.on('error', (error) => {
-    console.error('Error en la solicitud:', error.message);
-  });
-
-  // Envía los datos
-  request.write(data);
-  request.end();
-};
-
-loginProduct();
+  // Llamar a la función para realizar la solicitud
+  loginProduct();
+})();

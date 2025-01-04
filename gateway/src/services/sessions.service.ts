@@ -6,7 +6,7 @@ dotenv.config();
 
 export const userAuth = async (id: string, userIn: string, pswLogin: string): Promise<OutPutUserSessionDTO> => {
   try {
-    console.log('in auth 2', { id, userIn, pswLogin })
+    console.log(`${process.env.MSSESSIONS_URI}authSession`, { id, userIn, pswLogin })
     const response = await axios.post(`${process.env.MSSESSIONS_URI}authSession`, {
       id,
       user: userIn,

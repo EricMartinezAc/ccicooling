@@ -23,6 +23,8 @@ const ValideInputSession = async (body: any): Promise<boolean> => {
     const { owner, clav_prodct }: IntoUserRegtrDTO = body
   }
   const { user, pswLogin }: IntoUserAuthDTO = body
+  console.log({ user, pswLogin });
+  
 
   return await validateUser(user) && await validatePassword(pswLogin) ? true : false
 

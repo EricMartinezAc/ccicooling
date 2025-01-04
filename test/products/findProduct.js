@@ -1,44 +1,39 @@
-const http = require('http'); 
 
-const findProduct = async () => {
-  const _id = '67736fb6a5da74e14a20da91';
-  const data = JSON.stringify({ _id });
+// Archivo: postapi.js
 
-  const options = {
-    hostname: 'localhost',
-    port: 1992, 
-    path: '/api/ms/products/findProduct',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': data.length,
-    },
+(async () => {
+  const fetch = (await import('node-fetch')).default;
+
+  const url = "https://ccicooling.onrender.com/api/ms/products/findProduct";
+
+  const findProduct = async () => {
+
+    const _id = '67736fb6a5da74e14a20da91';
+    const data = JSON.stringify({ _id });
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+      },
+      body: data
+    };
+
+    try {
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('respuesta del servidor:', result);
+    } catch (error) {
+      console.error('Error al enviar los datos:', error.message);
+    }
   };
 
-  const request = http.request(options, (res) => { 
-    let responseData = '';
-
-    res.on('data', (chunk) => {
-      responseData += chunk;
-    });
-
-    res.on('end', () => {
-      try {
-        const result = JSON.parse(responseData);
-        console.log('respuesta del servidor:', result);
-      } catch (error) {
-        console.error('Error al analizar la respuesta:', error.message);
-      }
-    });
-  });
-
-  request.on('error', (error) => {
-    console.error('Error en la solicitud:', error.message);
-  });
-
-  // Envía los datos
-  request.write(data);
-  request.end();
-};
-
-findProduct();
+  // Llamar a la función para realizar la solicitud
+  findProduct();
+})();
