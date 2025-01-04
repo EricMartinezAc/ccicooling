@@ -10,7 +10,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 Conexiondb()
 
 const app = express();
-const port = process.env.MSSESSIONS_PORT || 1991;
+const port = process.env.PORT || process.env.MSSESSIONS_PORT;
 
 app.use(
   cors({

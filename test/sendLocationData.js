@@ -6,7 +6,7 @@ const sendLocationData = async () => {
   const data = JSON.stringify({ latitude, longitude });
 
   const options = {
-    hostname: 'localhost',
+    hostname: 'https://ccicooling-1.onrender.com',
     port: 2026, 
     path: '/api/cpannel',
     method: 'POST',

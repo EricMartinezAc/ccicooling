@@ -12,7 +12,7 @@ Conexiondb()
 
 
 const app = express();
-const port = 1992;
+const port = process.env.PORT || 1992;
 
 app.use(
   cors({
