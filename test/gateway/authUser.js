@@ -8,7 +8,7 @@ const authUser = async () => {
   const data = JSON.stringify({ id, user, pswLogin });
 
   const options = {
-    hostname: 'localhost',
+    hostname: 'https://ccicooling-1.onrender.com',
     port: 2025,
     path: '/api/sessions/login',
     method: 'POST',
