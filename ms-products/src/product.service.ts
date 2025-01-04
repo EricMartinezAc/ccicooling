@@ -3,7 +3,6 @@ import { outputLoginProductDTO, outputByIdProductDTO } from './dto'
 import prodct from "./utils/products.schemas";
 
 
-
 // Función para loggear un producto
 export const loginProductInDb = async (owner: string, clav_prodct: string): Promise<outputLoginProductDTO> => {
   try {
