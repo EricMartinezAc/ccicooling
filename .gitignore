@@ -7,6 +7,8 @@ ms-products/.env
 ms-sessions/node_modules
 ms-sessions/.env
 
+test/node_modules
+
 .env
 # Byte-compiled / optimized / DLL files
 __pycache__/
