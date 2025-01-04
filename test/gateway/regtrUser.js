@@ -7,7 +7,7 @@
 (async () => {
   const fetch = (await import('node-fetch')).default;
   
-  const url = "https://ccicooling-1.onrender.com/api/sessions/login";
+  const url = "https://ccicooling-1.onrender.com/api/sessions/regtr";
 
   const regtrUser = async () => {
     const owner='arcontroller@climatecontrolsing.com'

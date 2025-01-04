@@ -25,9 +25,9 @@ export const loginProductInDb = async (owner: string, clav_prodct: string): Prom
 };
 
 // Función para obtener un producto por ID
-export const findProductInDb = async (_id: string): Promise<outputByIdProductDTO> => {
+export const findProductInDb = async (id: string): Promise<outputByIdProductDTO> => {
   try {
-    const objectId = new mongoose.Types.ObjectId(_id)
+    const objectId = new mongoose.Types.ObjectId(id)
     const objectOwner = await prodct
       .findById(objectId)
       .exec();

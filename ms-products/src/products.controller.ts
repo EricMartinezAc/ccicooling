@@ -16,9 +16,9 @@ export const loginProduct = async (req: Request, res: Response) => {
 
 export const findProduct = async (req: Request, res: Response) => {
   try {
-    const {_id} = req.body
-    console.log(`into findProduct ${_id}`)
-    const findProduct = await findProductInDb(_id);
+    const {id} = req.body
+    console.log(`into findProduct ${id}`)
+    const findProduct = await findProductInDb(id);
     console.log(`output findProduct ${findProduct}`)
     res.status(201).json(findProduct);
   } catch (error) {

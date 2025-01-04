@@ -9,7 +9,7 @@ services:
       - ${MSSESSIONS_HOST}
 
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGODB_URI=${MONGODB_URI}
 
   ms-sessions:
     build:
@@ -17,7 +17,7 @@ services:
     ports:
       - "${MSSESSIONS_PORT}:${MSSESSIONS_PORT}"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGODB_URI=${MONGODB_URI}
 
   ms-products:
     build:
@@ -25,7 +25,7 @@ services:
     ports:
       - "${MSPRODUCTS_PORT}:${MSPRODUCTS_PORT}"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGODB_URI=${MONGODB_URI}
 
 volumes:
   mongo-data:

@@ -8,8 +8,8 @@
 
   const findProduct = async () => {
 
-    const _id = '67736fb6a5da74e14a20da91';
-    const data = JSON.stringify({ _id });
+    const id = '67736fb6a5da74e14a20da91';
+    const data = JSON.stringify({ id });
 
     const options = {
       method: 'POST',
