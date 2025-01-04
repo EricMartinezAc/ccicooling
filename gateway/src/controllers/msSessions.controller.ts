@@ -11,6 +11,7 @@ export interface DataUserOutputDTO {
 export const getUserAuth = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id, user, pswLogin }:IntoUserAuthDTO = req.body;
+    console.log('into gateway',{ id, user, pswLogin })
     let userAuthSuccess: OutPutUserSessionDTO = { statusCode: 404, email: 'unknow 1.5', user: `unknow 1.5`, token: false }
 
     if (!user || !pswLogin) {
@@ -27,6 +28,8 @@ export const getUserAuth = async (req: Request, res: Response): Promise<void> =>
 export const getUserRegister = async (req: Request, res: Response): Promise<void> => {
   try {   
     const { owner, clav_prodct, user, pswLogin }: IntoUserRegtrDTO = req.body;
+    console.log('into gateway', { owner, clav_prodct, user, pswLogin });
+    
     let userRegisterSuccess: OutPutUserSessionDTO = { statusCode: 404, email: 'unknow 2.1', user: `unknow 2.1`, token: false }
     if (!owner || !clav_prodct || !user || !pswLogin) {
       res.json(userRegisterSuccess)
