@@ -3,7 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 
-//import { gatewayCpannel } from './router/cpannel.route';
+import { gatewayCpannel } from './router/cpannel.route';
 import { gatewaySessions } from './router/ms.session.router';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-//app.use('/api', gatewayCpannel)
+app.use('/api', gatewayCpannel)
 app.use('/api', gatewaySessions);
 
 app.listen(port, () => {
