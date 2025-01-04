@@ -4,9 +4,10 @@ const authUser = async () => {
 
   const owner='arcontroller@climatecontrolsing.com'
   const clav_prodct = 'Arc2025*'
-  const user = 'user1';
-  const psw = '-Rsff7417';
-  const data = JSON.stringify({ owner, clav_prodct, user, psw });
+  
+  const user = 'User1*';
+  const pswLogin = 'Passw@1';
+  const data = JSON.stringify({ owner, clav_prodct, user, pswLogin });
 
   const options = {
     hostname: 'localhost',

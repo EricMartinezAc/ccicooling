@@ -26,5 +26,5 @@ app.use(
 app.use('/api/ms-session', sessionRoutes);
 
 app.listen(port, () => {
-  console.log(`Session CRUD service running on http://localhost:${port}`);
+  console.log(`Session CRUD service running on ${port}`);
 });

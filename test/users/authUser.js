@@ -1,15 +1,15 @@
-const http = require('http'); 
+const http = require('http');
 
 const authUser = async () => {
 
- _id = '67736988a5da74e14a20da90'
-  const user = 'user1';
-  const psw = '-Rsff7417';
-  const data = JSON.stringify({ _id, user, psw });
+  const id = '67736988a5da74e14a20da90'
+  const user = 'User1*';
+  const pswLogin = 'Passw@1';
+  const data = JSON.stringify({ id, user, pswLogin });
 
   const options = {
     hostname: 'localhost',
-    port: 1991, 
+    port: 1991,
     path: '/api/ms-session/authSession',
     method: 'POST',
     headers: {
@@ -18,7 +18,7 @@ const authUser = async () => {
     },
   };
 
-  const request = http.request(options, (res) => { 
+  const request = http.request(options, (res) => {
     let responseData = '';
 
     res.on('data', (chunk) => {
