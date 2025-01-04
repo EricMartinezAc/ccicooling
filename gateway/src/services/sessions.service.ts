@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { OutPutUserSessionDTO } from '../dto/output.user.session.dto';
+import dotenv from "dotenv";
+dotenv.config();
 
-const BASE_URL = 'http://localhost:1991';
 
 export const userAuth = async (id: string, userIn: string, pswLogin: string): Promise<OutPutUserSessionDTO> => {
   try {
     console.log('in auth 2', { id, userIn, pswLogin })
-    const response = await axios.post(`${BASE_URL}/api/ms-session/authSession`, {
+    const response = await axios.post(`${process.env.MSSESSIONS_URI}/api/ms-session/authSession`, {
       id,
       user: userIn,
       pswLogin,
@@ -36,7 +37,7 @@ export const userRegister = async (
 ): Promise<OutPutUserSessionDTO> => {
   try {
     console.log('in regtr 2', { owner, clav_prodct, userIn, pswLogin })
-    const response = await axios.post(`${BASE_URL}/api/ms-session/regtrSession`,
+    const response = await axios.post(`${process.env.MSSESSIONS_URI}/api/ms-session/regtrSession`,
       {
         owner,
         clav_prodct,
