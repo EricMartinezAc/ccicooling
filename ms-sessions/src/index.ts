@@ -23,6 +23,17 @@ app.use(
   })
 );
 
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing gracefully');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT signal received: closing gracefully');
+  process.exit(0);
+});
+
+
 app.use('/api/ms-session', sessionRoutes);
 
 app.listen(port, () => {

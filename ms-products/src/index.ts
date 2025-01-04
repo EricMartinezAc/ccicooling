@@ -26,6 +26,17 @@ app.use(
 );
 app.use('/api/ms/products', productRoutes);
 
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing gracefully');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT signal received: closing gracefully');
+  process.exit(0);
+});
+
+
 app.listen(port, () => {
   console.log(`Product CRUD Service running on ${port}`);
 });
