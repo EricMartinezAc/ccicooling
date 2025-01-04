@@ -9,11 +9,13 @@ import { gatewaySessions } from './router/ms.session.router';
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
-const port = process.env.GATEWAY_PORT ;
+const port = process.env.GATEWAY_PORT;
 
 app.use(
   cors({
-    origin: "*"
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
 app.use(

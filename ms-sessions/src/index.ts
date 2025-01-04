@@ -14,7 +14,9 @@ const port = process.env.MSSESSIONS_PORT;
 
 app.use(
   cors({
-    origin: "*"
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
 app.use(
